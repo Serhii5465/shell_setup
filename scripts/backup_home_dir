@@ -1,0 +1,22 @@
+#!/bin/bash
+
+uuid='FE821EBE821E7B7B'
+mount_point=$(lsblk -o UUID,MOUNTPOINT | awk -v u="$uuid" '$1 == u {print $2}')
+
+log_dir="${HOME}/logs/backup_home_dir"
+log_file="${log_dir}/$(date '+%d.%m.%Y_%H-%M-%S').log"
+
+dest="${mount_point}/backup_home_dir"
+
+if [[ -n $mount_point ]]
+then
+    mkdir -p "$log_dir" "$dest"
+
+    rsync --recursive --perms  --times --group --owner --specials --human-readable --links \
+    --stats --progress --del --verbose --out-format="%t %f %b" --log-file="$log_file" --exclude=films \
+    --exclude=Desktop --exclude=Documents --exclude=Downloads --exclude=Music --exclude=logs \
+    --exclude=Pictures --exclude=Public --exclude=Templates --exclude=Videos --exclude=.cache \
+    ~ "$dest"
+else
+    echo "Drive doesn't mounted"
+fi

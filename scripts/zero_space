@@ -1,0 +1,18 @@
+#!/bin/bash
+
+file="zerofile.img"
+bs="100M"
+dft_path="/var/tmp"
+
+if [ "${EUID}" -ne 0 ];then 
+    echo "Please run as root"
+    exit
+fi
+
+if [ -z "${1}" ]; then
+    echo "dd will create a file by default in ${dft_path}" 
+    dd if=/dev/zero of=/var/tmp/"${file}" bs="${bs}" status=progress ; rm /var/tmp/"${file}"
+else
+    echo "dd will create a file in ${1}" 
+    dd if=/dev/zero of="${1}"/"${file}" bs="${bs}" status=progress ; rm "${1}"/"${file}"
+fi
