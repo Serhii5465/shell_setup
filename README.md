@@ -1,0 +1,1 @@
+A repository for settings of different shells (bash, Powershell, etc)
