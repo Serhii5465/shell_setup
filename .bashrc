@@ -124,8 +124,8 @@ if [ "$(command -v git)" ]; then
         source ~/.git_aliases
     fi
     
-    if [ -f ~/.git-prompt.sh  ]; then
-        source ~/.git-prompt.sh
+    if [ -f ~/scripts/.git-prompt.sh ]; then
+        source ~/scripts/.git-prompt.sh
         PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u\[\e[00m\]:\[\e[01;34m\][\W]\[\e[38;5;51m\]`__git_ps1`\[\e[00m\]\n-> '
     fi 
 fi

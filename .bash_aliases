@@ -46,6 +46,10 @@ if groups | grep -q sudo; then
     if [ "$(command -v featherpad)" ]; then
         alias featherpad='sudo featherpad'
     fi
+
+    if [ -f ${HOME}/scripts/zero_space ]; then
+        alias zero_space='sudo bash ${HOME}/scripts/zero_space'
+    fi
 fi
 
 alias clc='clear'
@@ -53,8 +57,6 @@ alias cls='clear'
 
 alias qq='exit'
 alias qqq='exit'
-alias qqqq='exit'
-alias qqqqq='exit'
 
 alias reload='source ${HOME}/.bashrc'
 
