@@ -1,0 +1,23 @@
+#!/bin/bash
+
+script="$(realpath $(dirname $0))/core/prepare_fs"
+source "$script"
+
+dest="${ROOT_DIR_BACKUP_CFG}/git_win_cfg"
+
+log_dir="$LOGS_DIR/backup_win_git_cfg"
+log_file="${log_dir}/$(date '+%d.%m.%Y_%H-%M-%S').log"
+
+mkdir --parents "$dest" "$log_dir"
+
+name_user=$(whoami)
+root_dir_git_cfg="/cygdrive/c/Users/${name_user}/"
+list_git_files=(".ssh" ".bash_profile" ".bashrc" ".gitconfig" ".bash_history" "git_scripts" ".bash_aliases")
+
+arr_size=${#list_git_files[@]}
+
+for ((i = 0 ; i < "$arr_size" ; i++)); do
+    rsync --recursive --perms  --times --group --owner --specials --human-readable \
+    --stats --progress --del --verbose --out-format="%t %f %b" --log-file="$log_file" \
+    "${root_dir_git_cfg}${list_git_files[i]}" "$dest"
+done

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+script="$(realpath $(dirname $0))/core/prepare_fs"
+source "$script"
+
+dest="${ROOT_DIR_DEST_BACKUP}/work_env"
+
+log_dir="$LOGS_DIR/backup_work_env"
+log_file="${log_dir}/$(date '+%d.%m.%Y_%H-%M-%S').log"
+
+mkdir --parents "$dest" "$log_dir"
+
+rsync --recursive --perms --times --group --owner --specials --human-readable \
+--stats --progress --del --verbose --out-format="%t %f %b" --log-file="$log_file" \
+--exclude=cygwin64 --exclude=PortableGit \
+"$ROOT_DIR_WORK_ENV" "$dest"

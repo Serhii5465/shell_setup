@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export ROOT_DIR_WORK_ENV="/cygdrive/d/system"
+export ROOT_DIR_DEST_BACKUP="/cygdrive/e/backups"
+export ROOT_DIR_BACKUP_CFG="${ROOT_DIR_DEST_BACKUP}/work_env_cfg"
+
+export LOGS_DIR='/cygdrive/e/logs'
+
+if [ ! -d "$ROOT_DIR_WORK_ENV" ]; then
+    echo -e "Directory ${ROOT_DIR_WORK_ENV} doesn't exist"
+    exit 2
+fi
