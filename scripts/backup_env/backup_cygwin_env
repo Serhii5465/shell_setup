@@ -18,5 +18,5 @@ rsync --recursive --perms  --times --group --owner --specials --human-readable \
 ~ /etc/fstab "$dest_back_cfg"
 
 printf "\nRetrieving the Cygwin package list\n"
-cygcheck --check-setup --dump-only | sed -e "1,2d" -e 's/ .*$//' | awk 'NR==1{printf $1}{printf ",%s", $1}' >> "${dir_back_pkg}/list_packages.txt"
+cygcheck --check-setup --dump-only | sed -e "1,2d" -e 's/ .*$//' | awk 'NR==1{printf $1}{printf ",%s", $1}' >> "${dir_back_pkg}/list_packages.dat"
 printf "\nBackup completed\n"
