@@ -1,9 +1,16 @@
 alias dbuild='docker build'
 alias drun='docker run'
+
 alias dlsimg='docker image ls'
 alias dlsvol='docker volume ls'
 alias dps='docker ps'
-alias dockershell='docker run --interactive --tty --entrypoint=/bin/bash'
+
 alias drmvol='docker volume rm'
 alias drmimg='docker image rm'
 alias drmcont='docker container rm'
+
+alias dcompose='docker compose'
+alias dcompup='dcompose up'
+alias dcompstop='dcompose stop'
+alias dcompbuild='dcompose build'
+alias dcompls='dcompose ls'
