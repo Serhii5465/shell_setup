@@ -3,7 +3,7 @@ if [ -d '/cygdrive/d/projects' ]; then
 fi
 
 if [ -d '/cygdrive/e/downloads' ]; then
-    alias cddown='cd /cygdrive/e/downloads'
+    alias cddown='cd /cygdrive/d/downloads'
 fi
 
 if [ "$(command -v python3)" ]; then
@@ -20,7 +20,6 @@ if [ "$(command -v python3)" ]; then
 fi
 
 if [ "$(command -v ssh)" ]; then
-    alias hpcq57='ssh hpcq57'
     alias xubuntu='ssh xubuntu'
     alias ubuntu_admin='ssh ubuntu_admin'
 	alias ubuntu_develop='ssh ubuntu_develop'
@@ -33,7 +32,6 @@ alias cls='clear'
 
 alias cd1='cd ..; ls'
 alias cd2='cd ..; cd..; ls'
-alias cd3='cd ..; cd..; cd..; ls'
 
 alias df='df --human-readable'
 alias mkdir='mkdir --parents --verbose'
