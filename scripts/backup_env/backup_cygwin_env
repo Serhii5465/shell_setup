@@ -4,19 +4,19 @@ script="$(realpath $(dirname $0))/core/prepare_fs"
 source "$script"
 
 dest_back_cfg="${ROOT_DIR_BACKUP_CFG}/cygwin_cfg"
-dir_back_pkg="${ROOT_DIR_BACKUP_CFG}/cygwin_packages"
+dest_back_pkg="${ROOT_DIR_BACKUP_CFG}/cygwin_packages"
 
 log_dir="$LOGS_DIR/backup_cygwin_cfg"
 log_file="${log_dir}/$(date '+%d.%m.%Y_%H-%M-%S').log"
 
-mkdir --parents "$dest_back_cfg" "$dir_back_pkg" "$log_dir"
+mkdir --parents "$dest_back_cfg" "$dest_back_pkg" "$log_dir"
 
 rsync --recursive --perms  --times --group --owner --specials --human-readable \
 --stats --progress --del --verbose --out-format="%t %f %b" --log-file="$log_file" \
 --exclude=.python_history --exclude=.cache \
---exclude=.git --exclude=.gitignore --exclude=README.md --exclude=.cache \
+--exclude=.git --exclude=.gitignore --exclude=README.md \
 ~ /etc/fstab "$dest_back_cfg"
 
 printf "\nRetrieving the Cygwin package list\n"
-cygcheck --check-setup --dump-only | sed -e "1,2d" -e 's/ .*$//' | awk 'NR==1{printf $1}{printf ",%s", $1}' >> "${dir_back_pkg}/list_packages.dat"
+cygcheck --check-setup --dump-only | sed -e "1,2d" -e 's/ .*$//' | awk 'NR==1{printf $1}{printf ",%s", $1}' >> "${dest_back_pkg}/list_packages.dat"
 printf "\nBackup completed\n"
