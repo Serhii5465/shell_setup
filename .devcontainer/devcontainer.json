@@ -1,0 +1,18 @@
+{
+    "name" : "Test",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "Remisa.shellman"
+            ]
+        }
+    },
+    "mounts": [
+         "source=${localEnv:HOME}/.ssh,target=/home/developer/.ssh,type=bind,readonly"
+    ],
+    "postCreateCommand": "bash /workspaces/unix_shell_setup/deploy_artifacts"
+}
