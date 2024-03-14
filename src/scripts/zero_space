@@ -1,18 +1,55 @@
 #!/bin/bash
 
-file="zerofile.img"
-bs="100M"
-dft_path="/var/tmp"
+compress_free_space(){
+    local partitions=("$@")
 
-if [ "${EUID}" -ne 0 ];then 
-    echo "Please run as root"
-    exit
-fi
+    local file="zerofile.img"
+    local bs="100M"
 
-if [ -z "${1}" ]; then
-    echo "dd will create a file by default in ${dft_path}" 
-    dd if=/dev/zero of=/var/tmp/"${file}" bs="${bs}" status=progress ; rm /var/tmp/"${file}"
-else
-    echo "dd will create a file in ${1}" 
-    dd if=/dev/zero of="${1}"/"${file}" bs="${bs}" status=progress ; rm "${1}"/"${file}"
-fi
+    local temp_mnt_point="/mnt/compress_space"
+
+    mkdir -p $temp_mnt_point
+
+    for((i=0; i<${#partitions[@]}; i++)); do
+        mount_point=$(mount | awk -v n="/dev/${partitions[i]}" '$1 == n {print $3}')
+
+        if [ -d "${mount_point}" ]; then
+            echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $mount_point"
+            dd if=/dev/zero of="${mount_point}/${file}" bs="${bs}" status=progress ; rm "${mount_point}/${file}"
+        else
+            echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $temp_mnt_point"
+            mount /dev/${partitions[i]} $temp_mnt_point 
+
+            dd if=/dev/zero of="${temp_mnt_point}/${file}" bs="${bs}" status=progress ; rm "${temp_mnt_point}/${file}"
+
+            echo "Unmounting /dev/${partitions[i]}"
+            umount /dev/${partitions[i]}
+        fi
+    done
+
+    rmdir $temp_mnt_point    
+}
+
+main(){
+    if [ "${EUID}" -ne 0 ];then 
+        echo "Please run as root"
+        exit
+    fi
+
+    echo "Available partitions:"
+    lsblk --paths --output NAME,MOUNTPOINT,LABEL
+
+    read -p "Enter partition names separated by spaces (e.g. sda1 sda2 sdb2): " -a partitions
+    
+    for((i=0; i<${#partitions[@]}; i++)); do
+        if ! $(udevadm info -n /dev/${partitions[i]} 2>/dev/null | grep --quiet DEVTYPE=partition) ; then
+            echo "The partition /dev/${partitions[i]} does not exist"
+            exit 1
+        fi
+    done
+
+    compress_free_space "${partitions[@]}"
+}
+
+
+main
