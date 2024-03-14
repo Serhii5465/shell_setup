@@ -1,8 +1,10 @@
 {
-    "name" : "Test",
+    "name" : "ubuntu_shell_test",
     "build": {
         "dockerfile": "Dockerfile"
     },
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+    "workspaceFolder": "/workspace",
     "customizations": {
         "vscode": {
             "extensions": [
@@ -12,7 +14,8 @@
         }
     },
     "mounts": [
-         "source=${localEnv:HOME}/.ssh,target=/home/developer/.ssh,type=bind,readonly"
+         "source=${localEnv:HOME}/.ssh,target=/home/user1234/.ssh,type=bind,readonly"
     ],
-    "postCreateCommand": "bash /workspaces/unix_shell_setup/deploy_artifacts"
+    "postCreateCommand": "bash /workspace/deploy_artifacts",
+    "runArgs" : ["--security-opt", "apparmor=unconfined", "--cap-add=SYS_ADMIN", "--device=/dev/sdf1", "--device=/dev/sdg", "--device=/dev/sdh1"]
 }
