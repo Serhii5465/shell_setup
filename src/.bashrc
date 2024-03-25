@@ -133,3 +133,7 @@ fi
 if [ "$(command -v docker)" ]; then
     . ~/.docker_aliases
 fi
+
+if [ "$(command -v kubectl)" ]; then
+    source <(kubectl completion bash)
+fi
