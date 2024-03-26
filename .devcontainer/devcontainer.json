@@ -14,7 +14,7 @@
         }
     },
     "mounts": [
-         "source=${localEnv:HOME}/.ssh,target=/home/user1234/.ssh,type=bind,readonly"
+         "source=${localEnv:HOME}/.ssh/unix_shell_setup-ubuntu_branch,target=/home/user1234/.ssh,type=bind,readonly"
     ],
     "postCreateCommand": "bash /workspace/deploy_artifacts",
     "runArgs" : ["--security-opt", "apparmor=unconfined", "--cap-add=SYS_ADMIN", "--device=/dev/sdf1", "--device=/dev/sdg", "--device=/dev/sdh1"]
