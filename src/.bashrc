@@ -60,9 +60,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u\[\e[00m\]:\[\e[01;34m\][\W]\[\e[00m\]\n-> '
+    PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][\W]\[\e[00m\]\n-> '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:[\W]\n-> '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:[\W]\n-> '
 fi
 unset color_prompt force_color_prompt
 
@@ -126,7 +126,7 @@ if [ "$(command -v git)" ]; then
     
     if [ -f ~/scripts/.git-prompt.sh ]; then
         source ~/scripts/.git-prompt.sh
-        PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u\[\e[00m\]:\[\e[01;34m\][\W]\[\e[38;5;51m\]`__git_ps1`\[\e[00m\]\n-> '
+        PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][\W]\[\e[38;5;51m\]`__git_ps1`\[\e[00m\]\n-> '
     fi 
 fi
 
@@ -136,4 +136,5 @@ fi
 
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion bash)
+    alias kubectl='kctl'
 fi
