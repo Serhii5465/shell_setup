@@ -50,6 +50,11 @@ if groups | grep -q sudo; then
     if [ -f ${HOME}/scripts/zero_space ]; then
         alias zero_space='sudo bash ${HOME}/scripts/zero_space'
     fi
+
+    if [ "$(command -v nano)" ]; then
+        export EDITOR=nano
+        alias nano='sudo nano'
+    fi  
 fi
 
 alias clc='clear'
