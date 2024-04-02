@@ -6,7 +6,7 @@ HISTTIMEFORMAT="%d.%m.%Y %H:%M:%S - "
 HISTCONTROL=ignoreboth:erasedups
 
 shopt -s extglob
-HISTIGNORE='ls@( *|):history*:clear:exit:mkdir*:cd@( *|):pwd:cls:clc:proj:cddown:relbrc*:df'
+HISTIGNORE='ls@( *|):history*:clear:exit:mkdir*:cd@( *|):pwd:cls:clc:proj:cddown:relbrc*:df:reload'
 
 PROMPT_COMMAND='history -a'
 
