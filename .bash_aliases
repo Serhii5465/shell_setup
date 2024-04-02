@@ -21,11 +21,15 @@ fi
 
 if [ "$(command -v ssh)" ]; then
     alias xubuntu='ssh xubuntu'
-    alias ubuntu_admin='ssh ubuntu_admin'
-	alias ubuntu_develop='ssh ubuntu_develop'
+    alias ubuntu_raisnet='ssh ubuntu_raisnet'
+	alias k8s_master='ssh k8s_master'
+	alias k8s_node1='ssh k8s_node1'
+	#alias ubuntu_develop='ssh ubuntu_develop'
 fi
 
 alias reload='source ${HOME}/.bashrc'
+
+alias qq='exit'
 
 alias clc='clear'
 alias cls='clear'
