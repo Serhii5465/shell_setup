@@ -6,6 +6,8 @@ alias cls='clear'
 alias cd1='cd ..; ls'
 alias cd2='cd ..; cd ..; ls'
 
+alias qq='exit'
+
 alias gpush='git push'
 alias gadd='git add'
 alias gcomt='git commit --message'
