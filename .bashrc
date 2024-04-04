@@ -7,15 +7,19 @@ HISTCONTROL=ignoreboth:erasedups
 HISTFILE=${HOME}/.bash_history
 
 shopt -s extglob
-HISTIGNORE='ls@( *|):history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:relbrc*'
+HISTIGNORE='ls@( *|):history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:relbrc*:reload:qq'
 
 PROMPT_COMMAND='history -a'
 
-source ${HOME}/git_scripts/git-completion.bash
-source ${HOME}/git_scripts/git-prompt.sh
+if [ -d ${HOME}/git_scripts ]; then
+    source ${HOME}/git_scripts/git-completion.bash
+    source ${HOME}/git_scripts/git-prompt.sh
 
-GIT_PS1_SHOWDIRTYSTATE=1
-PS1='\n\[\e[32m\]\u\[\e[33m\]:[\W]\[\033[36m\]`__git_ps1`\[\e[0m\]\n-> '
+    GIT_PS1_SHOWDIRTYSTATE=1
+    PS1='\n\[\e[32m\]\u\[\e[33m\]:[\W] \[\e[38;5;219m\]$MSYSTEM\[\e[38;5;51m\]`__git_ps1`\[\e[0m\]\n-> '
+else 
+    PS1='\n\[\e[32m\]\u\[\e[33m\]:[\W] \[\e[38;5;219m\]$MSYSTEM\[\e[0m\]\n-> '
+fi
 
 if [ -f ${HOME}/.bash_aliases ]; then
     source ${HOME}/.bash_aliases
