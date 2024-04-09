@@ -10,11 +10,19 @@ if [ "$(command -v python3)" ]; then
     alias pip='pip3'
     alias python="$(which python3)"
 
-    alias backup_files='python ${HOME}/scripts/sync_data/main.py'
-    alias upload_docs_gdrive='python ${HOME}/scripts/gdrive_backup_docs/gdrive_backup_docs.py'
-    alias adb_sync_music='python ${HOME}/scripts/adb_sync_music/main.py'
-
-    if [ -f '${HOME}/scripts/ssh-ident' ] && [ "$(command -v ssh)" ]; then
+    if [ -d "${HOME}/scripts/sync_data" ]; then
+        alias backup_files='python $HOME/scripts/sync_data/main.py'
+    fi
+        
+    if [ -d "${HOME}/scripts/gdrive_backup_docs" ]; then
+        alias upload_docs_gdrive='python ${HOME}/scripts/gdrive_backup_docs/gdrive_backup_docs.py'
+    fi
+    
+    if [ -d "${HOME}/scripts/adb_sync_music" ]; then
+        alias adb_sync_music='python ${HOME}/scripts/adb_sync_music/main.py'
+    fi
+    
+    if [ -f "${HOME}/scripts/ssh-ident" ] && [ "$(command -v ssh)" ]; then
         alias ssh='python ${HOME}/scripts/ssh-ident'
     fi
 fi
@@ -25,6 +33,18 @@ if [ "$(command -v ssh)" ]; then
 	alias k8s_master='ssh k8s_master'
 	alias k8s_node1='ssh k8s_node1'
 	#alias ubuntu_develop='ssh ubuntu_develop'
+fi
+
+if [ -f "${HOME}/scripts/backup_env/backup_cygwin_env" ]; then
+    alias backup_cygwin_env='bash ${HOME}/scripts/backup_env/backup_cygwin_env'
+fi
+
+if [ -f "${HOME}/scripts/backup_env/backup_win_git_env" ]; then
+    alias backup_git_env='bash ${HOME}/scripts/backup_env/backup_win_git_env'
+fi
+
+if [ -f "${HOME}/scripts/backup_env/backup_work_env" ]; then
+    alias backup_work_env='bash ${HOME}/scripts/backup_env/backup_work_env'
 fi
 
 alias reload='source ${HOME}/.bashrc'
@@ -43,7 +63,3 @@ alias cp='rsync --recursive --perms  --times --group --owner --specials \
             --human-readable --stats --progress --verbose --out-format="%t %f %b"'
 alias mv='mv --interactive --verbose'
 alias dd='dd status=progress'
-
-alias backup_cygwin_env='bash ${HOME}/scripts/backup_env/backup_cygwin_env'
-alias backup_git_env='bash ${HOME}/scripts/backup_env/backup_win_git_env'
-alias backup_work_env='bash ${HOME}/scripts/backup_env/backup_work_env'
