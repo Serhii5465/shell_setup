@@ -1,10 +1,18 @@
 #!/bin/bash
 
-export ROOT_DIR_WORK_ENV="/cygdrive/d/system"
-export ROOT_DIR_DEST_BACKUP="/cygdrive/e/backups"
-export ROOT_DIR_BACKUP_CFG="${ROOT_DIR_DEST_BACKUP}/work_env_cfg"
+DEST_UUID_DELL_INSPIRON_3576="345837F85837B806"
+DEST_UUID_MSI_GF63="347E0E947E0E4F54"
 
-export LOGS_DIR='/cygdrive/d/logs'
+if blkid --uuid=${DEST_UUID_DELL_INSPIRON_3576} > /dev/null; then
+    ROOT_DIR_DEST_BACKUP="/cygdrive/d/backups"
+elif blkid --uuid=${DEST_UUID_MSI_GF63} > /dev/null; then
+    ROOT_DIR_DEST_BACKUP="/cygdrive/e/backups"
+fi
+
+ROOT_DIR_WORK_ENV="/cygdrive/d/system"
+ROOT_DIR_BACKUP_CFG="${ROOT_DIR_DEST_BACKUP}/work_env_cfg"
+
+LOGS_DIR="/cygdrive/d/logs"
 
 if [ ! -d "$ROOT_DIR_WORK_ENV" ]; then
     echo -e "Directory ${ROOT_DIR_WORK_ENV} doesn't exist"
