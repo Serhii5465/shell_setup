@@ -1,0 +1,2 @@
+*.* text eol=lf
+scripts/backup_env/**/* text eol=lf
