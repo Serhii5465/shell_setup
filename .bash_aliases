@@ -47,6 +47,10 @@ if [ -f "${HOME}/scripts/backup_env/backup_work_env" ]; then
     alias backup_work_env='bash ${HOME}/scripts/backup_env/backup_work_env'
 fi
 
+if [ -f "${HOME}/scripts/rename_mp3" ]; then
+    alias rename_mp3='bash ${HOME}/scripts/rename_mp3'
+fi
+
 alias reload='source ${HOME}/.bashrc'
 
 alias qq='exit'
