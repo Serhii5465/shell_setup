@@ -1,0 +1,19 @@
+#!/bin/bash
+
+directory="/cygdrive/d/downloads"
+
+cd "$directory" || { echo "Directory not found."; exit 1; }
+
+mapfile -d $'\0' mp3_files < <(find "${directory}" -maxdepth 1 -type f -name "*.mp3" -print0)
+
+if [[ -z "${mp3_files[@]}" ]]; then
+    echo "No MP3 files found in ${directory}"; exit 1;
+else
+    for item in "${mp3_files[@]}"; do
+        if [[ "$item" == *"y2mate.com - "* ]]; then
+            new_file=$(echo "$item" | sed 's/y2mate\.com - //')
+            mv "$item" "$new_file"
+            echo "Removed 'y2mate.com - ' from ${item}"
+        fi
+    done
+fi
