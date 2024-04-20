@@ -3,9 +3,9 @@ if [ -d '/cygdrive/d/projects' ]; then
 fi
 
 if [ -d '/cygdrive/e/downloads' ]; then
-    alias cddown='cd /cygdrive/e/downloads'
+    alias down='cd /cygdrive/e/downloads'
 elif [ -d '/cygdrive/d/downloads' ]; then
-    alias cddown='cd /cygdrive/d/downloads'
+    alias down='cd /cygdrive/d/downloads'
 fi
 
 if [ "$(command -v python3)" ]; then
