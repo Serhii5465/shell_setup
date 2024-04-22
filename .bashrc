@@ -13,3 +13,7 @@ PROMPT_COMMAND='history -a'
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
+
+if [ -f ~/.vbox_aliases ]; then
+    source ~/.vbox_aliases
+fi
