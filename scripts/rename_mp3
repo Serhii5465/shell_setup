@@ -1,6 +1,6 @@
 #!/bin/bash
 
-directory="/cygdrive/d/downloads"
+directory="/cygdrive/e/downloads"
 
 cd "$directory" || { echo "Directory not found."; exit 1; }
 
