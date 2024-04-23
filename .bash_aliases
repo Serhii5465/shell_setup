@@ -19,14 +19,12 @@ if [ "$(command -v python3)" ]; then
     if [ -d "${HOME}/scripts/gdrive_backup_docs" ]; then
         alias upload_docs_gdrive='python ${HOME}/scripts/gdrive_backup_docs/gdrive_backup_docs.py'
     fi
-    
-    if [ -d "${HOME}/scripts/adb_sync_music" ]; then
-        alias adb_sync_music='python ${HOME}/scripts/adb_sync_music/main.py'
-    fi
-    
+        
     if [ -f "${HOME}/scripts/ssh-ident" ] && [ "$(command -v ssh)" ]; then
         alias ssh='python ${HOME}/scripts/ssh-ident'
     fi
+
+    alias adb_sync_music='adbsync --show-progress --del push $(cygpath --windows /cygdrive/e/media/Music/) /storage/F32E-95B4/Music'
 fi
 
 if [ "$(command -v ssh)" ]; then
