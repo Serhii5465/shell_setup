@@ -136,5 +136,4 @@ fi
 
 if [ "$(command -v kubectl)" ]; then
     source <(kubectl completion bash)
-    alias kubectl='kctl'
 fi
