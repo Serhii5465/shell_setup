@@ -1,6 +1,6 @@
 #!/bin/bash
 
-compress_free_space(){
+function compress_free_space() {
     local partitions=("$@")
 
     local file="zerofile.img"
@@ -11,8 +11,10 @@ compress_free_space(){
     mkdir -p $temp_mnt_point
 
     for((i=0; i<${#partitions[@]}; i++)); do
+        # Get the mount point of the partition
         mount_point=$(mount | awk -v n="/dev/${partitions[i]}" '$1 == n {print $3}')
 
+        # Check if the mount point exists
         if [ -d "${mount_point}" ]; then
             echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $mount_point"
             dd if=/dev/zero of="${mount_point}/${file}" bs="${bs}" status=progress ; rm "${mount_point}/${file}"
@@ -20,6 +22,7 @@ compress_free_space(){
             echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $temp_mnt_point"
             mount /dev/${partitions[i]} $temp_mnt_point 
 
+            # Compress free space on the mounted partition
             dd if=/dev/zero of="${temp_mnt_point}/${file}" bs="${bs}" status=progress ; rm "${temp_mnt_point}/${file}"
 
             echo "Unmounting /dev/${partitions[i]}"
@@ -30,7 +33,7 @@ compress_free_space(){
     rmdir $temp_mnt_point    
 }
 
-main(){
+function main() {
     if [ "${EUID}" -ne 0 ];then 
         echo "Please run as root"
         exit
@@ -41,6 +44,7 @@ main(){
 
     read -p "Enter partition names separated by spaces (e.g. sda1 sda2 sdb2): " -a partitions
     
+    # Check if each partition exists
     for((i=0; i<${#partitions[@]}; i++)); do
         if ! $(udevadm info -n /dev/${partitions[i]} 2>/dev/null | grep --quiet DEVTYPE=partition) ; then
             echo "The partition /dev/${partitions[i]} does not exist"
@@ -50,6 +54,5 @@ main(){
 
     compress_free_space "${partitions[@]}"
 }
-
 
 main
