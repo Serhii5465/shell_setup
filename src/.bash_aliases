@@ -53,7 +53,7 @@ if groups | grep -q sudo; then
 
     if [ "$(command -v nano)" ]; then
         export EDITOR=nano
-        alias nano='sudo nano'
+        # alias nano='sudo nano'
     fi  
 fi
 
@@ -61,7 +61,6 @@ alias clc='clear'
 alias cls='clear'
 
 alias qq='exit'
-alias qqq='exit'
 
 alias reload='source ${HOME}/.bashrc'
 
