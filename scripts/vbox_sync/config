@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# UUID 
+DEST_UUID_DELL_INSPIRON_3576="345837F85837B806"
+DEST_UUID_MSI_GF63="347E0E947E0E4F54"
+
+# Mount points
+MNT_POINT_EXT_DRIVE="/cygdrive/r"
+
+MSI_SRC_HDD="/cygdrive/e"
+MSI_SRC_SSD="/cygdrive/d"
+
+DELL_SRC_SSD="/cygdrive/d"
+
+# VM labels
+XUBUNTU_VM="Xubuntu"
+UBUNTU_SER_VM="Ubuntu_Server"
+WIN10_VM="Windows10"
+K8S_MASTER_VM="k8s_master"
+K8S_NODE1_VM="k8s_node1"
+
+# OS drive
+MAIN_VDI_XUBUNTU_VM="Xubuntu.vdi"
+MAIN_VDI_UBUNTU_SER_VM="Ubuntu_Server.vdi"
+MAIN_VDI_WIN10_VM="win-10.vdi"
+
+# VM groups
+GENERAL_GROUP_DIR="general"
+K8S_GROUP_DIR="k8s"
+WIN_GROUP_DIR="windows"
+
+REL_PATH_XUBUNTU_VM="/vm/${GENERAL_GROUP_DIR}/${XUBUNTU_VM}/"
+REL_PATH_UBUNTU_SER_VM="/vm/${GENERAL_GROUP_DIR}/${UBUNTU_SER_VM}/"
+REL_PATH_K8S_MASTER_VM="/vm/${K8S_GROUP_DIR}/${K8S_MASTER_VM}/"
+REL_PATH_K8S_NODE1_VM="/vm/${K8S_GROUP_DIR}/${K8S_NODE1_VM}/"
+REL_PATH_WIN10_VM="/vm/${WIN_GROUP_DIR}/${WIN10_VM}/"
+
+# Exclusion
+LOGS_DIR='Logs'
+
+# Logging
+LOG_REL_PATH="/logs/vbox_sync/"
+LOG_FILE="$(date '+%d.%m.%Y_%H-%M-%S').log"
+LOG_PATH_DELL="${DELL_SRC_SSD}${LOG_REL_PATH}${LOG_FILE}"
+LOG_PATH_MSI="${MSI_SRC_HDD}${LOG_REL_PATH}${LOG_FILE}"
+
+# Exec
+vbox_sync_dell="${HOME}/scripts/vbox_sync/vbox_sync_dell"
+vbox_sync_msi="${HOME}/scripts/vbox_sync/vbox_sync_msi"
+
+if blkid --uuid=${DEST_UUID_DELL_INSPIRON_3576} > /dev/null; then
+    if [ -d "${MNT_POINT_EXT_DRIVE}" ]; then
+        mkdir $(dirname ${LOG_PATH_DELL}) > /dev/null
+        source "$vbox_sync_dell"
+    fi
+fi
+
+if blkid --uuid=${DEST_UUID_MSI_GF63} > /dev/null; then
+    if [ -d "${MNT_POINT_EXT_DRIVE}" ]; then
+        mkdir $(dirname ${LOG_PATH_MSI}) > /dev/null
+        source "$vbox_sync_msi"
+    fi
+fi

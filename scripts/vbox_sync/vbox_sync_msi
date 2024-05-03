@@ -1,0 +1,91 @@
+#!/bin/bash
+
+up_xubuntu(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_XUBUNTU_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_MSI} --recursive --copy-links ${MSI_SRC_HDD}${REL_PATH_XUBUNTU_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_XUBUNTU_VM}
+}
+
+up_ubuntu_ser(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_MSI} --recursive --copy-links ${MSI_SRC_HDD}${REL_PATH_UBUNTU_SER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM}
+}
+
+up_k8s_master(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_MSI} --recursive --copy-links ${MSI_SRC_HDD}${REL_PATH_K8S_MASTER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM}
+}
+
+up_k8s_node1(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_MSI} --recursive --copy-links ${MSI_SRC_HDD}${REL_PATH_K8S_NODE1_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}
+}
+
+up_win10(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_MSI} --recursive --copy-links ${MSI_SRC_HDD}${REL_PATH_WIN10_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM}
+}
+
+down_xubuntu(){
+    local path_os_drive="${MSI_SRC_SSD}/vm/${XUBUNTU_VM}/"
+
+    mkdir ${MSI_SRC_HDD}${REL_PATH_XUBUNTU_VM} $path_os_drive
+    cp --recursive --log-file=${LOG_PATH_MSI} --exclude=${MAIN_VDI_XUBUNTU_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_XUBUNTU_VM} ${MSI_SRC_HDD}${REL_PATH_XUBUNTU_VM}
+    cp --recursive --log-file=${LOG_PATH_MSI} ${MNT_POINT_EXT_DRIVE}${REL_PATH_XUBUNTU_VM}${MAIN_VDI_XUBUNTU_VM} $path_os_drive
+
+    if [ ! -h "${MSI_SRC_HDD}${REL_PATH_XUBUNTU_VM}${MAIN_VDI_XUBUNTU_VM}" ]; then
+        echo -e '\n'
+        cmd /c mklink "`cygpath -w \"${MSI_SRC_HDD}${REL_PATH_XUBUNTU_VM}${MAIN_VDI_XUBUNTU_VM}\"`" "`cygpath -w \"${path_os_drive}${MAIN_VDI_XUBUNTU_VM}\"`"
+    fi
+}
+
+down_ubuntu_ser(){
+    local path_os_drive="${MSI_SRC_SSD}/vm/${UBUNTU_SER_VM}/"
+
+    mkdir ${MSI_SRC_HDD}${REL_PATH_UBUNTU_SER_VM} $path_os_drive
+    cp --recursive --log-file=${LOG_PATH_MSI} --exclude=${MAIN_VDI_UBUNTU_SER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM} ${MSI_SRC_HDD}${REL_PATH_UBUNTU_SER_VM}
+    cp --recursive --log-file=${LOG_PATH_MSI} ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM}${MAIN_VDI_UBUNTU_SER_VM} $path_os_drive
+
+    if [ ! -h "${MSI_SRC_HDD}${REL_PATH_UBUNTU_SER_VM}${MAIN_VDI_UBUNTU_SER_VM}" ]; then
+        echo -e '\n'
+        cmd /c mklink "`cygpath -w \"${MSI_SRC_HDD}${REL_PATH_UBUNTU_SER_VM}${MAIN_VDI_UBUNTU_SER_VM}\"`" "`cygpath -w \"${path_os_drive}${MAIN_VDI_UBUNTU_SER_VM}\"`"
+    fi
+}   
+
+down_k8s_master(){
+    local path_os_drive="${MSI_SRC_SSD}/vm/${K8S_MASTER_VM}/"
+
+    mkdir ${MSI_SRC_HDD}${REL_PATH_K8S_MASTER_VM} $path_os_drive
+    cp --recursive --log-file=${LOG_PATH_MSI} --exclude=${MAIN_VDI_UBUNTU_SER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM} ${MSI_SRC_HDD}${REL_PATH_K8S_MASTER_VM}
+    cp --recursive --log-file=${LOG_PATH_MSI} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM}${MAIN_VDI_UBUNTU_SER_VM} $path_os_drive
+
+    if [ ! -h "${MSI_SRC_HDD}${REL_PATH_K8S_MASTER_VM}${MAIN_VDI_UBUNTU_SER_VM}" ]; then
+        echo -e '\n'
+        cmd /c mklink "`cygpath -w \"${MSI_SRC_HDD}${REL_PATH_K8S_MASTER_VM}${MAIN_VDI_UBUNTU_SER_VM}\"`" "`cygpath -w \"${path_os_drive}${MAIN_VDI_UBUNTU_SER_VM}\"`"
+    fi
+}  
+
+down_k8s_node1(){
+    local path_os_drive="${MSI_SRC_SSD}/vm/${K8S_NODE1_VM}/"
+
+    mkdir ${MSI_SRC_HDD}${REL_PATH_K8S_NODE1_VM} $path_os_drive
+    cp --recursive --log-file=${LOG_PATH_MSI} --exclude=${MAIN_VDI_UBUNTU_SER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM} ${MSI_SRC_HDD}${REL_PATH_K8S_NODE1_VM}
+    cp --recursive --log-file=${LOG_PATH_MSI} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}${MAIN_VDI_UBUNTU_SER_VM} $path_os_drive
+
+    if [ ! -h "${MSI_SRC_HDD}${REL_PATH_K8S_NODE1_VM}${MAIN_VDI_UBUNTU_SER_VM}" ]; then
+        echo -e '\n'
+        cmd /c mklink "`cygpath -w \"${MSI_SRC_HDD}${REL_PATH_K8S_NODE1_VM}${MAIN_VDI_UBUNTU_SER_VM}\"`" "`cygpath -w \"${path_os_drive}${MAIN_VDI_UBUNTU_SER_VM}\"`"
+    fi
+}
+
+down_win10(){
+    local path_os_drive="${MSI_SRC_SSD}/vm/${WIN10_VM}/"
+
+    mkdir ${MSI_SRC_HDD}${REL_PATH_WIN10_VM} $path_os_drive
+    cp --recursive --log-file=${LOG_PATH_MSI} --exclude=${MAIN_VDI_WIN10_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM} ${MSI_SRC_HDD}${REL_PATH_WIN10_VM}
+    cp --recursive --log-file=${LOG_PATH_MSI} ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM}${MAIN_VDI_WIN10_VM} $path_os_drive
+
+    if [ ! -h "${MSI_SRC_HDD}${REL_PATH_WIN10_VM}${MAIN_VDI_WIN10_VM}" ]; then
+        echo -e '\n'
+        cmd /c mklink "`cygpath -w \"${MSI_SRC_HDD}${REL_PATH_WIN10_VM}${MAIN_VDI_WIN10_VM}\"`" "`cygpath -w \"${path_os_drive}${MAIN_VDI_WIN10_VM}\"`"
+    fi
+}
