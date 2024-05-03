@@ -6,7 +6,7 @@ HISTTIMEFORMAT="%d.%m.%Y %H:%M:%S - "
 HISTCONTROL=ignoreboth:erasedups
 
 shopt -s extglob
-HISTIGNORE='history*:clear:exit:mkdir*:cd@( *|):pwd:cls:clc:proj:cddown:df:reload'
+HISTIGNORE='history*:clear:exit:mkdir*:cd@( *|):pwd:cls:clc:proj:cddown:df:reload:qq'
 
 PROMPT_COMMAND='history -a'
 
@@ -14,6 +14,6 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
-if [ -f ~/.vbox_aliases ]; then
-    source ~/.vbox_aliases
+if [ -f ~/scripts/vbox_sync/config ]; then
+    source ~/scripts/vbox_sync/config
 fi
