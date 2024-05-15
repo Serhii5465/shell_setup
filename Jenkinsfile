@@ -45,8 +45,8 @@ pipeline{
                 url: 'git@github.com:Serhii5465/shell_setup.git'
 
                 stash includes: '.*', name: 'configs'
-                stash includes 'scripts/backup_env/**/*', name: 'script_backup_env'
-                stash includes 'scripts/vbox_sync/*', 'name': 'script_vbox_sync'
+                stash includes: 'scripts/backup_env/**/*', name: 'script_backup_env'
+                stash includes: 'scripts/vbox_sync/*', name: 'script_vbox_sync'
             }
         }
 
