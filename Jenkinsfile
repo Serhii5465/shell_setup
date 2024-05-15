@@ -44,7 +44,9 @@ pipeline{
                 poll: false, 
                 url: 'git@github.com:Serhii5465/shell_setup.git'
 
-                stash includes: '.*, scripts/backup_env/**/*, scripts/vbox_sync/*', name: 'configs'
+                stash includes: '.*', name: 'configs'
+                stash includes 'scripts/backup_env/**/*', name: 'script_backup_env'
+                stash includes 'scripts/vbox_sync/*', 'name': 'script_vbox_sync'
             }
         }
 
@@ -54,7 +56,9 @@ pipeline{
             }
             steps {
                 unstash 'configs'
-                
+                unstash 'script_backup_env'
+                unstash 'script_vbox_sync'
+
                 bat returnStatus: true, script: 'dir'
                 bat returnStatus: true, script: 'robocopy /E /copyall . D:\\system\\applications\\cygwin64\\home\\raisnet'
             }
