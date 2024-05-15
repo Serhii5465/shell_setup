@@ -44,7 +44,7 @@ pipeline{
                 poll: false, 
                 url: 'git@github.com:Serhii5465/shell_setup.git'
 
-                // stash includes: '**/*.py', name: 'src'
+                stash includes: '.*, scripts/backup_env/**/*, scripts/vbox_sync/*', name: 'configs'
             }
         }
 
@@ -53,8 +53,10 @@ pipeline{
                 label "${params.AGENT}"
             }
             steps {
-                // unstash 'src'
-                // bat returnStatus: true, script: 'Robocopy.exe /E /copyall . D:\\system\\applications\\cygwin64\\home\\raisnet\\scripts\\sync_data'
+                unstash 'configs'
+                
+                bat returnStatus: true, script: 'dir'
+                bat returnStatus: true, script: 'robocopy /E /copyall . D:\\system\\applications\\cygwin64\\home\\raisnet'
             }
         }
     }
