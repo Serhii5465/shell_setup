@@ -10,12 +10,13 @@
         "vscode": {
             "extensions": [
                 "ms-azuretools.vscode-docker",
-                "Remisa.shellman"
+                "Remisa.shellman",
+                "janjoerke.jenkins-pipeline-linter-connector"
             ]
         }
     },
     "mounts": [
-        "source=${localEnv:HOME}/.ssh/deploy_keys_github/unix_shell_setup/id_rsa,target=/home/vscode/.ssh/deploy_keys_github/unix_shell_setup/id_rsa,type=bind,readonly",
+        "source=${localEnv:HOME}/.ssh/deploy_keys_github/shell_setup/id_rsa,target=/home/vscode/.ssh/deploy_keys_github/shell_setup/id_rsa,type=bind,readonly",
         "source=${localEnv:HOME}/.ssh/config,target=/home/vscode/.ssh/config,type=bind,readonly"
    ],
 //    "runArgs" : ["--security-opt", "apparmor=unconfined", "--cap-add=SYS_ADMIN", "--device=/dev/sdf1", "--device=/dev/sdg", "--device=/dev/sdh1"]
