@@ -1,30 +1,13 @@
 @Library('PrepEnvForBuild') _
 
-def CheckStatusSSH(String id){
-    sshPublisher(publishers: [sshPublisherDesc(configName: "${id}", sshRetry: [retries: 4, retryDelay: 750], 
-    transfers: [sshTransfer(cleanRemote: false, excludes: '', 
-    execCommand: 'whoami; uname -r;', 
-    execTimeout: 120000, 
-    flatten: false, 
-    makeEmptyDirs: false, 
-    noDefaultExcludes: false, 
-    patternSeparator: '[, ]+', 
-    remoteDirectory: '', 
-    remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], 
-    usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
-
-    if(currentBuild.result == 'UNSTABLE'){
-        error("${id} offline...")
-    }
-}
-
 pipeline {
     agent {
         label 'master'
     }
 
     options { 
-        skipDefaultCheckout() 
+        skipDefaultCheckout()
+        timestamps()
     }
 
     parameters {
@@ -57,11 +40,17 @@ pipeline {
                 credentialsId: 'cred_repo-shell_setup', 
                 poll: false, 
                 url: 'git@github.com:Serhii5465/shell_setup.git'
-
-                stash includes: 'src/*.*', name: 'user_config'
-                stash includes: 'src/scripts/*', name: 'user_scripts'
             }
         }
 
+        stage('Deploy'){
+            steps {
+                sshPublisher failOnError: true, publishers: [sshPublisherDesc(configName: 'ubuntu-ser_vb', sshRetry: [retries: 3, retryDelay: 1000], 
+                transfers: [sshTransfer(cleanRemote: false, excludes: '', 
+                execCommand: 'cd .jenkins_workspace; rsync --recursive --perms  --times --group --owner --specials --human-readable --stats --progress --verbose --out-format="%t %f %b" . ~ ; rm -rf ~/.jenkins_workspace', 
+                execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.jenkins_workspace', remoteDirectorySDF: false, removePrefix: 'src', sourceFiles: 'src/*.*, src/scripts/zero_space')], 
+                usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)]
+            }
+        }
     }
 }
