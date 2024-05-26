@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIR=/tmp/helm_temp
+HELM_ARCHIVE=helm-v3.15.1-linux-amd64.tar.gz
+URI_HELM=https://get.helm.sh/${HELM_ARCHIVE}
+
+mkdir -p ${DIR}
+curl --output ${DIR}/${HELM_ARCHIVE} ${URI_HELM}
+
+tar --gunzip --extract --verbose --file=${DIR}/${HELM_ARCHIVE} --directory=${DIR}
+mv --interactive --verbose ${DIR}/linux-amd64/helm /usr/local/bin/helm
+
+rm -rf ${DIR}
