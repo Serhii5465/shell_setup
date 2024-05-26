@@ -45,7 +45,7 @@ pipeline {
 
         stage('Deploy'){
             steps {
-                sshPublisher failOnError: true, publishers: [sshPublisherDesc(configName: 'ubuntu-ser_vb', sshRetry: [retries: 3, retryDelay: 1000], 
+                sshPublisher failOnError: true, publishers: [sshPublisherDesc(configName: "${params.SSH_DOMAIN}", sshRetry: [retries: 3, retryDelay: 1000], 
                 transfers: [sshTransfer(cleanRemote: false, excludes: '', 
                 execCommand: 'cd .jenkins_workspace; rsync --recursive --perms  --times --group --owner --specials --human-readable --stats --progress --verbose --out-format="%t %f %b" . ~ ; rm -rf ~/.jenkins_workspace', 
                 execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.jenkins_workspace', remoteDirectorySDF: false, removePrefix: 'src', sourceFiles: 'src/*.*, src/scripts/zero_space')], 
