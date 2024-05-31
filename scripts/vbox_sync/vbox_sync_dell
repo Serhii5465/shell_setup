@@ -20,6 +20,11 @@ up_k8s_node1(){
     cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}
 }
 
+up_k8s_node2(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM}
+}
+
 up_win10(){
     mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM}
     cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_WIN10_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_WIN10_VM}
@@ -43,6 +48,11 @@ down_k8s_master(){
 down_k8s_node1(){
     mkdir ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM}
     cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM} ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM}
+}
+
+down_k8s_node2(){
+    mkdir ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM} ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM}
 }
 
 down_win10(){
