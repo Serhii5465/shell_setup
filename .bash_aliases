@@ -32,6 +32,7 @@ if [ "$(command -v ssh)" ]; then
     alias ubuntu_raisnet='ssh ubuntu_raisnet'
 	alias k8s_master='ssh k8s_master'
 	alias k8s_node1='ssh k8s_node1'
+    alias k8s_node2='ssh k8s_node2'
 	#alias ubuntu_develop='ssh ubuntu_develop'
 fi
 
