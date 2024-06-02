@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ENV USER=vscode
 ARG PATH_SSH_KEYS=/home/${USER}/.ssh
-ARG REL_PATH_DEP_KEYS=/deploy_keys_github/unix_shell_setup
+ARG REL_PATH_DEP_KEYS=/deploy_keys_github/shell_setup
 
 ARG SCRIPT_INST_KUBECTL=/tmp/inst_kubectl
 ARG SCRIPT_INST_HELM=/tmp/inst_helm
