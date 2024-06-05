@@ -9,7 +9,6 @@ pipeline {
 
     options { 
         skipDefaultCheckout()
-        timestamps()
     }
 
     parameters {
@@ -39,12 +38,6 @@ pipeline {
                                     return ["xubuntu_vb", "ubuntu-ser_vb"]
                             }'''
                     ])
-        
-
-        credentials credentialType: 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey', 
-            defaultValue: '', 
-            name: 'GIT_REPO_CRED', 
-            required: true
     }
     
     stages {
@@ -63,18 +56,11 @@ pipeline {
             }
         }
         
-        stage('Check git cred'){
-            steps {
-                CheckGitCred(params.GIT_REPO_CRED)
-            }
-        }
-        
         stage('Git checkout'){
             steps {
-                git branch: 'ubuntu', 
-                credentialsId: 'cred_repo-shell_setup', 
-                poll: false, 
-                url: 'git@github.com:Serhii5465/shell_setup.git'
+                checkout scmGit(branches: [[name: 'ubuntu']],
+                                extensions: [], 
+                                userRemoteConfigs: [[url: 'shell_setup_repo:Serhii5465/shell_setup.git']])
             }
         }
         
