@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # UUID 
-DEST_UUID_DELL_INSPIRON_3576="345837F85837B806"
-DEST_UUID_MSI_GF63="347E0E947E0E4F54"
+UUID_DELL_INSPIRON_3576="345837F85837B806"
+UUID_MSI_GF63="347E0E947E0E4F54"
+UUID_USB_HDD="2842CD1C42CCF01C"
 
 # Mount points
-MNT_POINT_EXT_DRIVE="/cygdrive/r"
-
 MSI_SRC_HDD="/cygdrive/e"
 MSI_SRC_SSD="/cygdrive/d"
 
@@ -52,16 +51,20 @@ LOG_PATH_MSI="${MSI_SRC_HDD}${LOG_REL_PATH}${LOG_FILE}"
 vbox_sync_dell="${HOME}/scripts/vbox_sync/vbox_sync_dell"
 vbox_sync_msi="${HOME}/scripts/vbox_sync/vbox_sync_msi"
 
-if blkid --uuid=${DEST_UUID_DELL_INSPIRON_3576} > /dev/null; then
-    if [ -d "${MNT_POINT_EXT_DRIVE}" ]; then
-        mkdir $(dirname ${LOG_PATH_DELL}) > /dev/null
+# USB-HDD mount point
+BLK_DEV_EXT_DRIVE=$(blkid --uuid $UUID_USB_HDD)
+MNT_POINT_EXT_DRIVE=""
+
+if [[ $BLK_DEV_EXT_DRIVE != "" ]]; then
+    MNT_POINT_EXT_DRIVE=$(cygpath -u $(cygpath -w $BLK_DEV_EXT_DRIVE | awk '{print substr($1,5,2)}'))
+
+    if blkid --uuid=$UUID_DELL_INSPIRON_3576 > /dev/null; then
+        mkdir $(dirname $LOG_PATH_DELL) > /dev/null
         source "$vbox_sync_dell"
     fi
-fi
 
-if blkid --uuid=${DEST_UUID_MSI_GF63} > /dev/null; then
-    if [ -d "${MNT_POINT_EXT_DRIVE}" ]; then
-        mkdir $(dirname ${LOG_PATH_MSI}) > /dev/null
+    if blkid --uuid=$UUID_MSI_GF63 > /dev/null; then
+        mkdir $(dirname $LOG_PATH_MSI) > /dev/null
         source "$vbox_sync_msi"
-    fi
+   fi
 fi
