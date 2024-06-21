@@ -7,9 +7,11 @@ HISTCONTROL=ignoreboth:erasedups
 HISTFILE=${HOME}/.bash_history
 
 shopt -s extglob
-HISTIGNORE='ls@( *|):history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:relbrc*:reload:qq'
+HISTIGNORE='history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:reload:qq:alias'
 
 PROMPT_COMMAND='history -a'
+
+SCRIPTS_DIR='/d/system/scripts/'
 
 if [ -d ${HOME}/git_scripts ]; then
     source ${HOME}/git_scripts/git-completion.bash
