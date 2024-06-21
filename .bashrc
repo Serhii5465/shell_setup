@@ -24,3 +24,7 @@ fi
 if [ -f ${HOME}/.bash_aliases ]; then
     source ${HOME}/.bash_aliases
 fi
+
+if [ -f ${HOME}/.git_aliases ]; then
+    source ${HOME}/.git_aliases
+fi
