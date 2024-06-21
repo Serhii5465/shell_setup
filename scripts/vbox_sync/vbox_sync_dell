@@ -10,19 +10,9 @@ up_ubuntu_ser(){
     cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_UBUNTU_SER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM}
 }
 
-up_k8s_master(){
-    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_K8S_MASTER_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM}
-}
-
-up_k8s_node1(){
-    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM}
-}
-
-up_k8s_node2(){
-    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM} ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM}
+up_ubuntu_k8s(){
+    mkdir ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_K8S}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${DELL_SRC_SSD}${REL_PATH_UBUNTU_K8S} ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_K8S}
 }
 
 up_win10(){
@@ -40,19 +30,9 @@ down_ubuntu_ser(){
     cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_SER_VM} ${DELL_SRC_SSD}${REL_PATH_UBUNTU_SER_VM}
 }
 
-down_k8s_master(){
-    mkdir ${DELL_SRC_SSD}${REL_PATH_K8S_MASTER_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_MASTER_VM} ${DELL_SRC_SSD}${REL_PATH_K8S_MASTER_VM}
-}
-
-down_k8s_node1(){
-    mkdir ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE1_VM} ${DELL_SRC_SSD}${REL_PATH_K8S_NODE1_VM}
-}
-
-down_k8s_node2(){
-    mkdir ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM}
-    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_K8S_NODE2_VM} ${DELL_SRC_SSD}${REL_PATH_K8S_NODE2_VM}
+down_ubuntu_k8s(){
+    mkdir ${DELL_SRC_SSD}${REL_PATH_UBUNTU_K8S}
+    cp --exclude=${LOGS_DIR} --log-file=${LOG_PATH_DELL} --recursive ${MNT_POINT_EXT_DRIVE}${REL_PATH_UBUNTU_K8S} ${DELL_SRC_SSD}${REL_PATH_UBUNTU_K8S}
 }
 
 down_win10(){
