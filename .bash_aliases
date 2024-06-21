@@ -30,6 +30,7 @@ fi
 if [ "$(command -v ssh)" ]; then
     alias xubuntu='ssh xubuntu'
     alias ubuntu_raisnet='ssh ubuntu_raisnet'
+    alias minikube='ssh minikube'
 	alias k8s_master='ssh k8s_master'
 	alias k8s_node1='ssh k8s_node1'
     alias k8s_node2='ssh k8s_node2'
