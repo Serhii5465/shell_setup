@@ -30,3 +30,7 @@ fi
 if [ -f ${HOME}/.git_aliases ]; then
     source ${HOME}/.git_aliases
 fi
+
+if [ -f ${HOME}/.ssh_aliases ]; then
+    source ${HOME}/.ssh_aliases
+fi
