@@ -1,79 +1,92 @@
 @Library('PrepEnvForBuild') _
 
-def String [] pick_hosts;
+def agents_online = [];
+
+def UnstashOnAgent(String label, String cmd){
+    return {
+        node(label){
+            stage('Unstash on ' + label){
+                script{
+                    unstash 'src'
+
+                    sh returnStatus: true, script: cmd
+                }
+            }
+        }
+    }
+}
 
 pipeline {
     agent {
         label 'master'
     }
-
+    
     options { 
-        skipDefaultCheckout()
+        skipDefaultCheckout() 
     }
 
     parameters {
-        activeChoice choiceType: 'PT_SINGLE_SELECT', 
-                description: 'Select a group of hosts',
-                filterLength: 1, 
-                filterable: false, 
-                name: 'GROUPS_SSH_HOSTS', 
-                randomName: 'choice-parameter-20358126523315', 
-                script: groovyScript(fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], 
-                script: [classpath: [], oldScript: '', sandbox: true, 
-                script: 'return ["k8s", "general"]'])
+        activeChoice choiceType: 'PT_CHECKBOX', 
+        description: 'Select agents to run the build', filterLength: 1, filterable: false, 
+        name: 'NODES', script: groovyScript(fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], 
+        script: [classpath: [], oldScript: '', sandbox: false, 
+        script: '''
+            def GetNodesByLabel(String label){
+                def nodes = []
 
-        
-        reactiveChoice choiceType: 'PT_CHECKBOX', 
-                    description: 'Select SSH hosts for deployment', 
-                    filterLength: 1, 
-                    filterable: false, 
-                    name: 'SSH_HOSTS', 
-                    randomName: 'choice-parameter-20358135599748', 
-                    referencedParameters: 'GROUPS_SSH_HOSTS', 
-                    script: groovyScript(fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], 
-                    script: [classpath: [], oldScript: '', sandbox: true, 
-                    script: '''if (GROUPS_SSH_HOSTS.equals("k8s")) {
-                                    return ["k8s-master_vb", "k8s-node1_vb", "k8s-node2_vb"]
-                                } else if (GROUPS_SSH_HOSTS.equals("general")) {
-                                    return ["xubuntu_vb", "ubuntu-ser_vb"]
-                            }'''
-                    ])
+                jenkins.model.Jenkins.get().computers.each { c ->
+                if (c.node.labelString.contains("${label}")) {
+                    nodes.add(c.node.selfLabel.name)
+                }}
+
+                return nodes
+            }
+
+            return GetNodesByLabel("linux_agents_vb")'''
+            ])
     }
-    
+
     stages {
-        stage('Check status SSH servers'){
+        stage('Ping agent'){
             steps{
-                script{
-                    if(params.SSH_HOSTS.isEmpty()){
+                script {
+                    if(params.NODES.isEmpty()){
                         error("Select at least one host")
                     } else {
-                        pick_hosts = params.SSH_HOSTS.split(',')
-                        for (item in pick_hosts){
-                            CheckStatusSSH(item)
+                        agents_online = params.NODES.split(',')
+                        for (item in agents_online) {
+                            CheckAgent(item)
                         }
-                    }
+                    }   
                 }
             }
         }
-        
-        stage('Git checkout'){
+
+        stage('Checkout git'){
             steps {
-                checkout scmGit(branches: [[name: 'ubuntu']],
-                                extensions: [], 
-                                userRemoteConfigs: [[url: 'shell_setup_repo:Serhii5465/shell_setup.git']])
+                git branch: 'ubuntu', 
+                poll: false, 
+                url: 'shell_setup_repo:Serhii5465/shell_setup.git'
+
+                stash includes: 'src/*.*, src/**/scripts/*', excludes: 'src/scripts/backup_home_dir', name: 'src'
             }
         }
-        
+
         stage('Deploy'){
             steps {
-                script{
-                   for (item in pick_hosts){
-                        sshPublisher failOnError: true, publishers: [sshPublisherDesc(configName: item, sshRetry: [retries: 1, retryDelay: 1000], 
-                        transfers: [sshTransfer(cleanRemote: false, excludes: '', 
-                        execCommand: 'cd .jenkins_workspace; rsync --recursive --perms  --times --group --owner --specials --human-readable --stats --progress --verbose --out-format="%t %f %b" . ~ ; rm -rf ~/.jenkins_workspace', 
-                        execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.jenkins_workspace', remoteDirectorySDF: false, removePrefix: 'src', sourceFiles: 'src/*.*, src/scripts/zero_space')], 
-                        usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)]
-                    } 
+                script {
+                    def cmd = "rsync --recursive --perms  --times --group --owner \
+                                --specials --human-readable --stats --progress \
+                                --verbose --out-format=\'%t %f %b\' src/ ~"
+
+                    def tasks = [:]
+
+                    for (item in agents_online){
+                        def label = item
+                        tasks[label] = UnstashOnAgent(label, cmd)
+                    }
+
+                    parallel tasks
                 }
             }
         }
