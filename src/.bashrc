@@ -18,7 +18,7 @@ HISTTIMEFORMAT="%d.%m.%Y %H:%M:%S - "
 HISTCONTROL=ignoreboth:erasedups
 
 shopt -s extglob
-HISTIGNORE='history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:proj:cddown:relbrc*:df:htop*:alias'
+HISTIGNORE='history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:proj:cddown:df:htop*:alias'
 
 PROMPT_COMMAND='history -a'
 
@@ -116,7 +116,7 @@ if ! shopt -oq posix; then
 fi
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    source ~/.bash_aliases
 fi
 
 if [ "$(command -v git)" ]; then
@@ -124,14 +124,18 @@ if [ "$(command -v git)" ]; then
         source ~/.git_aliases
     fi
     
-    if [ -f ~/scripts/.git-prompt.sh ]; then
-        source ~/scripts/.git-prompt.sh
+    if [ -f ~/scripts/git-completion.bash ]; then
+        source ~/scripts/git-completion.bash
+    fi
+
+    if [ -f ~/scripts/git-prompt.sh ]; then
+        source ~/scripts/git-prompt.sh
         PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][\W]\[\e[38;5;51m\]`__git_ps1`\[\e[00m\]\n-> '
     fi 
 fi
 
 if [ "$(command -v docker)" ]; then
-    . ~/.docker_aliases
+    source ~/.docker_aliases
 fi
 
 if [ "$(command -v kubectl)" ]; then
