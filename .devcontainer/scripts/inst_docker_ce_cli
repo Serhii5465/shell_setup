@@ -1,0 +1,7 @@
+#!/bin/bash
+
+file="docker-ce-cli_27.0.3-1~ubuntu.24.04~noble_amd64.deb"
+
+curl -O "https://download.docker.com/linux/ubuntu/dists/noble/pool/stable/amd64/${file}"
+dpkg -i $file
+rm $file
