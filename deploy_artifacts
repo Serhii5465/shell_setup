@@ -5,3 +5,8 @@ src_dir="$(realpath $(dirname $0))/src"
 cp -f "${src_dir}/.bashrc" ~/.bashrc
 cp -f "${src_dir}/.bash_aliases" ~/.bash_aliases
 cp -f "${src_dir}/.git_aliases" ~/.git_aliases
+cp -f "${src_dir}/.docker_aliases" ~/.docker_aliases
+
+mkdir -p ~/scripts
+cp -f "${src_dir}/scripts/git-completion.bash" ~/scripts/git-completion.bash
+cp -f "${src_dir}/scripts/git-prompt.sh" ~/scripts/git-prompt.sh
