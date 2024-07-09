@@ -1,16 +1,24 @@
 alias dockbuild='docker build'
 alias dockrun='docker run'
 
-alias docklsimg='docker image ls'
-alias docklsvol='docker volume ls'
-alias dockps='docker ps'
+alias dps='docker ps'
 
-alias dockrmvol='docker volume rm'
-alias dockrmimg='docker image rm'
-alias dockrmcont='docker container rm'
+alias dpull='docker pull'
 
-alias dockcompose='docker compose'
-alias dockcompup='dockcompose up'
-alias dockcompstop='dockcompose stop'
-alias dockcompbuild='dockcompose build'
-alias dockcompls='dockcompose ls'
+alias dcup='docker compose up'
+alias dcbuild='docker compose build'
+
+alias dcupv='docker compose --verbose up'
+alias dcbuildv='docker compose --verbose build'
+
+alias dcdown="docker compose down"
+alias dcdownv="docker compose --verbose down"
+
+alias dcupbuild="docker compose up --build"
+alias dcupbuilddet="docker compose up --build -d"
+
+alias dcstop="docker compose stop"
+
+dockbash(){
+    docker exec -it $1 bash
+}
