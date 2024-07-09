@@ -12,17 +12,17 @@ if [ "$(command -v python)" ]; then
     #     alias ssh='python ${HOME}/scripts/ssh-ident'
     # fi
 
-    if [ -d "${SCRIPTS_DIR}/gdrive_backup_docs" ]; then
-        alias upload_docs_gdrive='python ${SCRIPTS_DIR}/gdrive_backup_docs/gdrive_backup_docs.py'
+    if [ -d "${PYTHON_SCRIPTS_DIR}/gdrive_backup_docs" ]; then
+        alias upload_docs_gdrive='python ${PYTHON_SCRIPTS_DIR}/gdrive_backup_docs/gdrive_backup_docs.py'
     fi
 
-    if [ -d "${SCRIPTS_DIR}/sync_data" ]; then
-        alias backup_files='python ${SCRIPTS_DIR}/sync_data/main.py'
+    if [ -d "${PYTHON_SCRIPTS_DIR}/sync_data" ]; then
+        alias backup_files='python ${PYTHON_SCRIPTS_DIR}/sync_data/main.py'
     fi
 
-    if [ -d "${SCRIPTS_DIR}/backup_env" ]; then
-        alias backup_work_env='python ${SCRIPTS_DIR}/backup_env/work_env.py'
-        alias backup_git_env='python ${SCRIPTS_DIR}/backup_env/git_env.py'
+    if [ -d "${PYTHON_SCRIPTS_DIR}/backup_env" ]; then
+        alias backup_work_env='python ${PYTHON_SCRIPTS_DIR}/backup_env/work_env.py'
+        alias backup_git_env='python ${PYTHON_SCRIPTS_DIR}/backup_env/git_env.py'
     fi
 
     if [ "$(command -v adb)" ]; then
