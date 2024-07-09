@@ -5,19 +5,22 @@ if groups | grep -q sudo; then
     alias reboot='sudo shutdown -r now'
 
     #apt-get aliases
-    alias apt-inst='sudo apt install --assume-yes'
-    alias apt-rem='sudo apt purge --autoremove --assume-yes'
+    alias apt-install='sudo apt install --assume-yes'
+    alias apt-remove='sudo apt purge --autoremove --assume-yes'
     alias apt-fix='sudo apt install --fix-broken'
-    alias autoremove='sudo apt autoremove'
-    alias update='sudo apt update'
-    alias dpkg='sudo dpkg'
+    alias apt-autoremove='sudo apt autoremove'
+    alias apt-update='sudo apt update'
     alias clean_system='sudo apt-get autoremove && sudo apt-get clean && sudo apt-get autoclean'
 
-    #systemd aliases
-    alias sdinit='sudo systemctl start'
-    alias sdstat='sudo systemctl status'
-    alias sdreboot='sudo systemctl restart'
-    alias sdkill='sudo systemctl stop'
+    alias dpkg='sudo dpkg'
+    if [ -r /usr/share/bash-completion/completions/dpkg ]; then
+        source /usr/share/bash-completion/completions/dpkg && complete -F _dpkg dpkg
+    fi
+
+    alias sct='systemctl'
+    if [ -r /usr/share/bash-completion/completions/systemctl ]; then
+        source /usr/share/bash-completion/completions/systemctl && complete -F _systemctl sct
+    fi
 
     #ssh aliases
     if [ "$(command -v sshd)" ]; then
@@ -25,14 +28,6 @@ if groups | grep -q sudo; then
         alias ssh_status='sudo systemctl status ssh'
         alias ssh_restart='sudo systemctl restart ssh'
         alias ssh_stop='sudo systemctl stop ssh'
-    fi
-
-    #qbittorrent-nox aliases
-    if [ "$(command -v qbittorrent-nox)" ]; then
-        alias qb_start='sudo systemctl start qbittorrent-nox'
-        alias qb_status='sudo systemctl status qbittorrent-nox'
-        alias qb_restart='sudo systemctl restart qbittorrent-nox'
-        alias qb_stop='sudo systemctl stop qbittorrent-nox'
     fi
 
     if [ "$(command -v gedit)" ]; then
@@ -53,7 +48,6 @@ if groups | grep -q sudo; then
 
     if [ "$(command -v nano)" ]; then
         export EDITOR=nano
-        # alias nano='sudo nano'
     fi  
 fi
 
@@ -78,7 +72,6 @@ fi
 
 alias cd1='cd ..; ls'
 alias cd2='cd ..; cd ..; ls'
-alias cd3='cd ..; cd ..; cd ..; ls'
 
 alias dd='dd status=progress'
 alias df='df --human-readable'
