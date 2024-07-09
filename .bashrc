@@ -11,15 +11,15 @@ HISTIGNORE='history*:clear:exit:mkdir:cd@( *|):pwd:cls:clc:reload:qq:alias'
 
 PROMPT_COMMAND='history -a'
 
-SCRIPTS_DIR='/d/system/scripts/'
+PYTHON_SCRIPTS_DIR='/d/system/scripts/'
 
-if [ -d ${HOME}/git_scripts ]; then
-    source ${HOME}/git_scripts/git-completion.bash
-    source ${HOME}/git_scripts/git-prompt.sh
+[ -f ${HOME}/scripts/git-completion.bash ] && source ${HOME}/scripts/git-completion.bash
 
+if [ -f ${HOME}/scripts/git-prompt.sh ]; then
+    source ${HOME}/scripts/git-prompt.sh
     GIT_PS1_SHOWDIRTYSTATE=1
     PS1='\n\[\e[32m\]\u\[\e[33m\]:[\W] \[\e[38;5;219m\]$MSYSTEM\[\e[38;5;51m\]`__git_ps1`\[\e[0m\]\n-> '
-else 
+else
     PS1='\n\[\e[32m\]\u\[\e[33m\]:[\W] \[\e[38;5;219m\]$MSYSTEM\[\e[0m\]\n-> '
 fi
 
