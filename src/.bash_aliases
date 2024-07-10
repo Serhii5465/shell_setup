@@ -39,7 +39,7 @@ if groups | grep -q sudo; then
                 echo "Add a description of the snapshot before creating it"
                 return
             else
-                sudo timeshift --create --comments $1
+                sudo timeshift --create --comments "$1"
             fi
         }
     fi
