@@ -9,7 +9,7 @@ ARG SCRIPT_INST_HELM=/tmp/inst_helm
 ARG SCRIPT_INST_DOCKER_CE_CLI=/tmp/inst_docker_ce_cli
 
 RUN apt update && apt install -y --no-install-recommends udev curl ca-certificates \
-    git bash-completion sudo rsync gedit openssh-server \
+    git bash-completion sudo rsync gedit openssh-server timeshift cron \
     && rm -rf /var/lib/apt/lists/* && apt-get clean \
     # Setting non-root user
     && adduser --disabled-password --gecos '' --shell /bin/bash ${USER} \
