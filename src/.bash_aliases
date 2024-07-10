@@ -30,6 +30,15 @@ if groups | grep -q sudo; then
         alias ssh_stop='sudo systemctl stop ssh'
     fi
 
+    if [ "$(command -v timeshift)" ]; then
+        alias tdelsnap='sudo timeshift --delete'
+        alias tlistsnap='sudo timeshift --list'
+
+        taddsnap(){
+            sudo timeshift --create --comments $1
+        }
+    fi
+    
     if [ "$(command -v gedit)" ]; then
         alias gedit='sudo gedit'
     fi
