@@ -35,7 +35,12 @@ if groups | grep -q sudo; then
         alias tlistsnap='sudo timeshift --list'
 
         taddsnap(){
-            sudo timeshift --create --comments $1
+            if [[ -z "${1}" ]]; then
+                echo "Add a description of the snapshot before creating it"
+                return
+            else
+                sudo timeshift --create --comments $1
+            fi
         }
     fi
     
