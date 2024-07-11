@@ -65,8 +65,9 @@ pipeline {
         stage('Checkout git'){
             steps {
                 git branch: 'ubuntu', 
-                poll: false, 
-                url: 'shell_setup_repo:Serhii5465/shell_setup.git'
+                poll: false,
+                credentialsId: 'github_cred', 
+                url: 'git@github.com:Serhii5465/shell_setup.git'
 
                 stash includes: 'src/*.*, src/**/scripts/*', excludes: 'src/scripts/backup_home_dir', name: 'src'
             }
