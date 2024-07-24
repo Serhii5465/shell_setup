@@ -33,6 +33,7 @@ if groups | grep -q sudo; then
     if [ "$(command -v timeshift)" ]; then
         alias tdelsnap='sudo timeshift --delete'
         alias tlistsnap='sudo timeshift --list'
+        alias trestore='sudo timeshift --restore'
 
         taddsnap(){
             if [[ -z "${1}" ]]; then
