@@ -1,3 +1,4 @@
 alias xubuntu='ssh xubuntu'
-alias ubuntu_raisnet='ssh ubuntu_raisnet'
-alias ubuntu_k8s='ssh ubuntu_k8s'
+alias ubuntu='ssh ubuntu'
+alias k8s_master='ssh k8s_master'
+alias k8s_worker1='ssh k8s_worker1'
