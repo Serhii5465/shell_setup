@@ -13,5 +13,5 @@ node('master') {
         func_deploy : ""
     ]
 
-    DeployArtifactsPipelineWinAgents(config)
+    DeployArtifactsPipelineOnAgents(config)
 }
