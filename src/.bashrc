@@ -115,6 +115,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+SCRIPT_DIR=~/scripts
+
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
@@ -123,13 +125,13 @@ if [ "$(command -v git)" ]; then
     if [ -f ~/.git_aliases ]; then
         source ~/.git_aliases
     fi
-    
-    if [ -f ~/scripts/git-completion.bash ]; then
-        source ~/scripts/git-completion.bash
-    fi
 
-    if [ -f ~/scripts/git-prompt.sh ]; then
-        source ~/scripts/git-prompt.sh
+    if [ -f "${SCRIPT_DIR}/git-completion.bash" ]; then
+        source "${SCRIPT_DIR}/git-completion.bash"
+    fi
+    
+    if [ -f "${SCRIPT_DIR}/git-prompt.sh" ]; then
+        source "${SCRIPT_DIR}/git-prompt.sh"
         PS1='${debian_chroot:+($debian_chroot)}\[\e[01;32m\]\u@\h\[\e[00m\]:\[\e[01;34m\][\W]\[\e[38;5;51m\]`__git_ps1`\[\e[00m\]\n-> '
     fi 
 fi
