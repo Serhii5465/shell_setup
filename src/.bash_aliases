@@ -57,10 +57,10 @@ if groups | grep -q sudo; then
         alias featherpad='sudo featherpad'
     fi
 
-    if [ -f ${HOME}/scripts/zero_space ]; then
-        alias zero_space='sudo bash ${HOME}/scripts/zero_space'
+    if [ -f "${SCRIPT_DIR}/zero_space" ]; then
+        alias zero_space='sudo bash ${SCRIPT_DIR}/zero_space'
     fi
-
+    
     if [ "$(command -v nano)" ]; then
         export EDITOR=nano
     fi  
@@ -83,6 +83,32 @@ fi
 
 if [ -f ${HOME}/scripts/backup_home_dir ]; then
     alias backup_home_dir='bash ${HOME}/scripts/backup_home_dir' 
+fi
+
+if [ -f "${SCRIPT_DIR}/backup_home_dir" ]; then
+    alias backup_home_dir='bash ${SCRIPT_DIR}/backup_home_dir' 
+fi
+
+if [ -d "${SCRIPT_DIR}/docker-volume-backups" ]; then
+    SCRIPT_DIR_DOCKER_VOL_BACKUP="${SCRIPT_DIR}/docker-volume-backups"
+
+    init_venv(){
+        if [ ! -d "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/.venv" ]; then
+            python3 -m venv "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/.venv"
+        fi
+        
+        source "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/.venv/bin/activate" && pip install -r "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/requirements.txt" >> /dev/null
+        python3 $@
+        deactivate
+    }
+    
+    restore_dock_vol(){
+        init_venv "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/restore.py" $@
+    }
+
+    backup_dock_vol(){
+        init_venv "${SCRIPT_DIR_DOCKER_VOL_BACKUP}/backup.py" $@
+    }
 fi
 
 alias cd1='cd ..; ls'
