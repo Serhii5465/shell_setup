@@ -147,3 +147,7 @@ fi
 if [ "$(command -v helm)" ]; then
     source <(helm completion bash)
 fi
+
+if [ "$(command -v kind)" ]; then
+    source ~/.bash-completion/kind-completion
+fi

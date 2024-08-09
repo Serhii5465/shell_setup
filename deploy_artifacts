@@ -10,3 +10,6 @@ cp -f "${src_dir}/.docker_aliases" ~/.docker_aliases
 mkdir -p ~/scripts
 cp -f "${src_dir}/scripts/git-completion.bash" ~/scripts/git-completion.bash
 cp -f "${src_dir}/scripts/git-prompt.sh" ~/scripts/git-prompt.sh
+
+mkdir -p ~/.bash-completion
+cp -f "${src_dir}/.bash-completion/kind-completion" ~/.bash-completion/kind-completion

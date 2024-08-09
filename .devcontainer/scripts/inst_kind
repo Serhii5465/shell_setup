@@ -1,0 +1,16 @@
+#!/bin/bash
+
+DIR=/tmp/kind
+FILE=kind-linux-amd64
+URI=https://kind.sigs.k8s.io/dl/v0.23.0/${FILE}
+
+if [ $(uname -m) = x86_64 ]; then
+    mkdir -p ${DIR}
+    curl -L --output "${DIR}/${FILE}" ${URI}
+
+    chmod +x "${DIR}/${FILE}"
+
+    mv --interactive --verbose "${DIR}/${FILE}" /usr/local/bin/kind
+
+    rm -rf ${DIR}
+fi
