@@ -9,7 +9,7 @@ node('master') {
         stash_includes : "src/*.*, src/scripts/*, src/*.*/*",
         stash_excludes : "src/scripts/backup_home_dir",
         command_deploy : "rsync --recursive --perms  --times --group --owner --specials --human-readable --stats --progress \
-                                --verbose --out-format=\'%t %f %b\' src/ ~",
+                                --verbose --out-format=\'%t %f %b\' src/ /data",
         func_deploy : ""
     ]
 
