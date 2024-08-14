@@ -141,7 +141,9 @@ if [ "$(command -v docker)" ]; then
 fi
 
 if [ "$(command -v kubectl)" ]; then
+    alias k=kubectl
     source <(kubectl completion bash)
+    complete -F __start_kubectl k
 fi
 
 if [ "$(command -v helm)" ]; then
