@@ -1,6 +1,6 @@
-FROM ubuntu:24.04
+FROM debian:12
 
-ENV USER=ubuntu
+ENV USER=debian
 ARG PATH_SSH_KEYS=/home/${USER}/.ssh
 ARG REL_PATH_DEP_KEYS=/deploy_keys_github/shell_setup
 
@@ -13,6 +13,7 @@ RUN apt update && apt install -y --no-install-recommends udev curl ca-certificat
     git bash-completion sudo rsync gedit openssh-server timeshift cron \
     && rm -rf /var/lib/apt/lists/* && apt-get clean \
     # Setting non-root user
+    && useradd --shell /bin/bash --create-home --user-group ${USER} \
     && echo "${USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers \
     && usermod --append --groups sudo ${USER} \
     # Fix permissions of SSH folders
