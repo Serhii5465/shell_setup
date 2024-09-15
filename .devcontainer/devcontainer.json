@@ -19,6 +19,7 @@
         "source=${localEnv:HOME}/.ssh/deploy_keys_github/shell_setup/key,target=/home/debian/.ssh/deploy_keys_github/shell_setup/key,type=bind,readonly",
         "source=${localEnv:HOME}/.ssh/config,target=/home/debian/.ssh/config,type=bind,readonly"
    ],
+   
    "runArgs": [
         "--memory=768m",
         "--memory-reservation=512m",
