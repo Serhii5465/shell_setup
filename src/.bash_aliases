@@ -121,3 +121,5 @@ alias mkdir='mkdir --parents --verbose'
 alias cp='rsync --recursive --perms  --times --group --owner --specials \
             --human-readable --stats --progress --verbose --out-format="%t %f %b"'
 alias mv='mv --interactive --verbose'
+
+alias ssh-keygen-rsa='ssh-keygen -t rsa -b 4096'
