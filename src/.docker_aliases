@@ -22,3 +22,7 @@ alias dcstop="docker compose stop"
 dockbash(){
     docker exec -it $1 bash
 }
+
+docksh(){
+    docker exec -it $1 sh
+}
