@@ -123,3 +123,4 @@ alias cp='rsync --recursive --perms  --times --group --owner --specials \
 alias mv='mv --interactive --verbose'
 
 alias ssh-keygen-rsa='ssh-keygen -t rsa -b 4096'
+alias ssh-keygen='ssh-keygen -t ed25519'
