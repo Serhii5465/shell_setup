@@ -1,32 +1,34 @@
 #!/bin/bash
 
 function compress_free_space() {
-    local partitions=("$@")
+    local list_uuids=("$@")
 
     local file="zerofile.img"
     local bs="100M"
 
     local temp_mnt_point="/mnt/compress_space"
+    local act_mnt_point=""
 
     mkdir -p $temp_mnt_point
 
-    for((i=0; i<${#partitions[@]}; i++)); do
+    for((i=0; i<${#list_uuids[@]}; i++)); do
         # Get the mount point of the partition
-        mount_point=$(mount | awk -v n="/dev/${partitions[i]}" '$1 == n {print $3}')
+        act_mnt_point=$(lsblk -o UUID,MOUNTPOINT | awk -v u="${list_uuids[i]}" '$1 == u {print $2}')
 
         # Check if the mount point exists
-        if [ -d "${mount_point}" ]; then
-            echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $mount_point"
-            dd if=/dev/zero of="${mount_point}/${file}" bs="${bs}" status=progress ; rm "${mount_point}/${file}"
+        if [ -d "${act_mnt_point}" ]; then
+            echo "Currently compressing free space on partition (UUID - ${list_uuids[i]}) which is mounted at $act_mnt_point"
+
+            dd if=/dev/zero of="${act_mnt_point}/${file}" bs="${bs}" status=progress ; rm "${act_mnt_point}/${file}"
         else
-            echo "Currently compressing free space on partition /dev/${partitions[i]}, which is mounted at $temp_mnt_point"
-            mount /dev/${partitions[i]} $temp_mnt_point 
+            mount --uuid ${list_uuids[i]} $temp_mnt_point
+            echo "Currently compressing free space on partition (UUID - ${list_uuids[i]}), which is mounted at $temp_mnt_point"
 
             # Compress free space on the mounted partition
             dd if=/dev/zero of="${temp_mnt_point}/${file}" bs="${bs}" status=progress ; rm "${temp_mnt_point}/${file}"
 
-            echo "Unmounting /dev/${partitions[i]}"
-            umount /dev/${partitions[i]}
+            echo "Unmounting partition (UUID - ${list_uuids[i]})"
+            umount $temp_mnt_point
         fi
     done
 
@@ -40,19 +42,25 @@ function main() {
     fi
 
     echo "Available partitions:"
-    lsblk --paths --output NAME,MOUNTPOINT,LABEL
+    lsblk --paths --output NAME,MOUNTPOINT,LABEL,UUID,SIZE
 
-    read -p "Enter partition names separated by spaces (e.g. sda1 sda2 sdb2): " -a partitions
+    read -p "Enter partition names separated by spaces (e.g. sda1 vg0-home sdc1): " -a partitions
     
+    local list_uuids=()
+    local result="" 
+
     # Check if each partition exists
     for((i=0; i<${#partitions[@]}; i++)); do
-        if ! $(udevadm info -n /dev/${partitions[i]} 2>/dev/null | grep --quiet DEVTYPE=partition) ; then
-            echo "The partition /dev/${partitions[i]} does not exist"
+        result=$(lsblk --raw --noheadings --output NAME,UUID | grep ${partitions[i]} | awk '{print $2}')
+        if [ -z "$result" ]; then
+            echo "The partition ${partitions[i]} does not exist"
             exit 1
+        else
+            list_uuids+=($result)
         fi
     done
 
-    compress_free_space "${partitions[@]}"
+    compress_free_space "${list_uuids[@]}"
 }
 
 main
